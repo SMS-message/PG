@@ -6,42 +6,78 @@ def main() -> None:
     """main function of the project"""
     pygame.init()
     size = width, height = 1920, 1080
-    main_menu = pygame.display.set_mode(size)
-    screen = pygame.display.set_mode(size)
     clock = pygame.time.Clock()
-    running = True
+
+    main_menu = pygame.display.set_mode(size)
+
+    font = pygame.font.SysFont("Arial Black", 84)
+    name: dict = {"render": font.render("EchoMaze", True, "#CCCCCC")}
+    name["pos"] = (width // 2 - name["render"].get_width() // 2, height // 2 - name["render"].get_height() * 2)
+
+
+    start_text: dict = {"render": font.render("Start", True, "#CCCCCC", "#303030")}
+    start_text["pos"] = (width // 2 - start_text["render"].get_width() // 2,
+                         height // 2 - start_text["render"].get_height() // 2)
+    started: bool = False
+
+    screen = pygame.display.set_mode(size)
+
     fps = 60
 
     player_size: int = 20
-    v: int = 20
+    v: int = 5
     player: Character = Character(width // 2, height // 2, '#3535F3', player_size, v)
 
-    Wall(0, 0, width - 1, 0, 2)
-    Wall(0, 0, 0, height - 1, 2)
-    Wall(100, 200, 200, 200, 2)
-    Wall(width - 1, 0, width - 3, height - 3, 2)
+    Wall(0, 0, width - 1, 0)
+    Wall(0, 0, 0, height - 1)
+    Wall(width - 2, 0, width - 2, height - 2)
+    Wall(0, height - 2, width - 2, height - 2)
 
+    Wall(1000, 500, 1500, 500)
 
-
-
-    main_loop = 1
+    running = True
+    main_loop = 0
 
     while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    running = False
-                if event.key == pygame.K_f:
-                    ...
-
         match main_loop:
             case 0:
+                mouse_x_on_btn: bool = (pygame.mouse.get_pos()[0] in
+                                        range(start_text["pos"][0],
+                                              start_text["pos"][0] + start_text["render"].get_width()))
+                mouse_y_on_btn: bool = (pygame.mouse.get_pos()[1] in
+                                        range(start_text["pos"][1],
+                                              start_text["pos"][1] + start_text["render"].get_height()))
+                started_text = "Start" if not started else "Continue"
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        running = False
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_ESCAPE:
+                            running = False
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if event.button == 1 and mouse_x_on_btn and mouse_y_on_btn:
+                            main_loop = 1
+                            started: bool = True
+                            start_text: dict = {"render": font.render("Continue", True, "#CCCCCC", "#303030")}
+                            start_text["pos"] = (width // 2 - start_text["render"].get_width() // 2,
+                                                 height // 2 - start_text["render"].get_height() // 2)
+
+                if mouse_x_on_btn and mouse_y_on_btn:
+                    start_text["render"] = font.render(started_text, True, "#FFFFFF", "#454545")
+                else:
+                    start_text["render"] = font.render(started_text, True, "#CCCCCC", "#303030")
+
                 main_menu.fill("#121212")
-                pygame.draw.rect(main_menu, "#CC3322", pygame.Rect(width // 2 - 150, height // 2 - 40, 300, 80))
+                main_menu.blit(*name.values())
+                main_menu.blit(*start_text.values())
 
             case 1:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        running = False
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_ESCAPE:
+                            main_loop = 0
                 screen.fill("#121212")
 
                 CHARACTER_SPRITES.draw(screen)
