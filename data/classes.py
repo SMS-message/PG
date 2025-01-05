@@ -1,5 +1,3 @@
-from tkinter.constants import HORIZONTAL
-
 import pygame
 
 CHARACTER_SPRITES = pygame.sprite.Group()

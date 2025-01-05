@@ -1,5 +1,6 @@
 import pygame
-from data.classes import *
+from data.classes import Character, CHARACTER_SPRITES, WALL_SPRITES
+import data.walls
 
 
 def main() -> None:
@@ -26,17 +27,15 @@ def main() -> None:
 
     player_size: int = 20
     v: int = 5
-    player: Character = Character(width // 2, height // 2, '#3535F3', player_size, v)
-
-    Wall(0, 0, width - 1, 0)
-    Wall(0, 0, 0, height - 1)
-    Wall(width - 2, 0, width - 2, height - 2)
-    Wall(0, height - 2, width - 2, height - 2)
-
-    Wall(1000, 500, 1500, 500)
+    player: Character = Character(100, 100, '#3535F3', player_size, v)
 
     running = True
     main_loop = 0
+
+    data.walls.Wall(0, 0, width - 1, 0)
+    data.walls.Wall(0, 0, 0, height - 1)
+    data.walls.Wall(width - 2, 0, width - 2, height - 2)
+    data.walls.Wall(0, height - 2, width - 2, height - 2)
 
     while running:
         match main_loop:
@@ -88,7 +87,6 @@ def main() -> None:
         pygame.display.flip()
         clock.tick(fps)
     pygame.quit()
-
 
 if __name__ == '__main__':
     main()
