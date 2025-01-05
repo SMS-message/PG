@@ -26,7 +26,7 @@ def main() -> None:
     fps = 60
 
     player_size: int = 20
-    v: int = 5
+    v: int = 1
     player: Character = Character(100, 100, '#3535F3', player_size, v)
 
     running = True
@@ -85,7 +85,7 @@ def main() -> None:
                 WALL_SPRITES.draw(screen)
                 WALL_SPRITES.update()
         pygame.display.flip()
-        clock.tick(fps)
+
     pygame.quit()
 
 if __name__ == '__main__':
