@@ -33,7 +33,7 @@
    > - Схема работы ![](scheme_of_work.png)
 5. Program code plan.
     - Функции:
-   > main();
+   > main(), game_cycle(), game_loop(), menu(), terminate();
     - Классы:
    > Character, Sound; Wall;
     - Библиотеки:
