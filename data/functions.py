@@ -1,5 +1,5 @@
 from data.config import *
-from data.classes import CHARACTER_SPRITES, WALL_SPRITES
+from data.classes import CHARACTER_SPRITES, WALL_SPRITES, SOUND_SPRITES, Sound
 
 font = pygame.font.SysFont("Arial Black", 84)
 name = {"render": font.render("EchoMaze", True, "#CCCCCC")}
@@ -62,6 +62,8 @@ def game_loop():
     WALL_SPRITES.draw(screen)
     WALL_SPRITES.update()
 
+    SOUND_SPRITES.draw(screen)
+    SOUND_SPRITES.update()
 
 def game_cycle():
     global started, running, name, start_text

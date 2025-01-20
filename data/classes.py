@@ -1,9 +1,11 @@
 import pygame
+from typing import Tuple
 
 CHARACTER_SPRITES = pygame.sprite.Group()
 WALL_SPRITES = pygame.sprite.Group()
 VERTICAL_WALL_SPRITES = pygame.sprite.Group()
 HORIZONTAL_WALL_SPRITES = pygame.sprite.Group()
+SOUND_SPRITES = pygame.sprite.Group()
 
 
 class Character(pygame.sprite.Sprite):
@@ -64,4 +66,16 @@ class Wall(pygame.sprite.Sprite):
 
 
 class Sound:
-    ...
+    def __init__(self, vx: int, vy: int, center: Tuple[int, int]):
+        radius: int = 10
+        self.vx, self.vy = vx, vy
+        self.image = pygame.Surface((radius * 2, radius * 2))
+        self.rect = pygame.Rect(center[0] - radius, center[1] - radius, radius * 2, radius * 2)
+        pygame.draw.circle(self.image, pygame.Color("#606060"), center, radius)
+
+    def update(self):
+        self.rect.move(self.vx, self.vy)
+        collided_wall = pygame.sprite.spritecollideany(self, WALL_SPRITES)
+        if collided_wall:
+            collided_wall.image.fill("#FF0000")
+            del self
