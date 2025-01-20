@@ -5,7 +5,7 @@ from typing import Tuple
 
 pygame.init()
 pygame.display.set_caption("EchoMaze")
-SIZE = WIDTH, HEIGHT = 120 * 8, 120 * 5
+SIZE = WIDTH, HEIGHT = 1920, 1080
 clock = pygame.time.Clock()
 
 main_menu = pygame.display.set_mode(SIZE)
