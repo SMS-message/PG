@@ -1,0 +1,12 @@
+{
+  "player": {
+    "size": 20,
+    "speed": 1,
+    "pos": [20, 20]
+  },
+  "game": {
+    "size": [1920, 1080],
+    "fps": 60,
+    "main_loop": 0
+  }
+}

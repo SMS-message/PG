@@ -8,7 +8,7 @@
 3. Description of the program.
     - Запуск и главное меню
    > - Запуск игры производится через файл main.py или main.exe;
-   > - Главное меню включает в себя кнопки: старт, настройки, выход из игры, а также текст с названием самой игры.
+   > - Главное меню включает в себя кнопки: старт, выход из игры, таблицу рекордов, а также текст с названием самой игры.
     - Завершение игры и финальное окно
    > - При выходе из лабиринта появляется окно, гже пользователю будет предложено пройти лабиринт ещё раз;
    > - В финальном окне можно будет увидеть насколько быстро игрок прошёл лабиринт.
@@ -32,12 +32,12 @@
    > - Импортируем все нужные нам классы и функции из /data/;
    > - Схема работы ![](scheme_of_work.png)
 5. Program code plan.
-    - Функции:
-   > main(), game_cycle(), game_loop(), menu(), terminate();
+    - Функции и декораторы:
+   > main(), game_cycle(), game_loop(), menu(), end_menu(), level_transition_loop(), main_loop_transition(), load_level(), button_hover(), to_second_thread(), show_records(), terminate();
     - Классы:
-   > Character, Sound; Wall;
+   > Character, LevelChanger, Sound, Wall, RecordsTable;
     - Библиотеки:
-   > pygame.
+   > pygame, PyQt6, json, sqlite3, threading.
 6. Graphical interface.
     ![](graphical_interface1.png)
     ![](graphical_interface2.png)
