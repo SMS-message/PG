@@ -1,5 +1,7 @@
 import sqlite3
 
+import pygame
+
 from data.config import *
 from data.classes import CHARACTER_SPRITES, WALL_SPRITES, SOUND_SPRITES, LEVEL_CHANGER_SPRITES, RecordsTable
 from PyQt6.QtWidgets import QApplication
@@ -146,6 +148,9 @@ def end_menu() -> None:
             if event.key == pygame.K_ESCAPE:
                 running = False
             if event.key == pygame.K_RETURN:
+                with open("data/current_level.txt", mode="w") as file:
+                    file.write("1")
+                    load_level(1)
                 main_loop_transition()
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
@@ -198,6 +203,12 @@ def level_transition_loop() -> None:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RETURN:
+                with open("data/current_level.txt", mode="w") as file:
+                    file.write("2")
+                    load_level(2)
+                main_loop_transition()
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 if mouse_x_on_next_btn and mouse_y_on_next_btn:
