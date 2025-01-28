@@ -1,7 +1,5 @@
 import sqlite3
 
-import pygame
-
 from data.config import *
 from data.classes import CHARACTER_SPRITES, WALL_SPRITES, SOUND_SPRITES, LEVEL_CHANGER_SPRITES, RecordsTable
 from PyQt6.QtWidgets import QApplication
@@ -75,7 +73,7 @@ def menu() -> None:
     mouse_x_on_exit_btn: bool = (pygame.mouse.get_pos()[0] in
                                  range(exit_start_button_text["pos"][0],
                                        exit_start_button_text["pos"][0] + exit_start_button_text["render"].get_width()))
-    mouse_y_on_exit_btn: bool = (pygame.mouse.get_pos()[1] in
+    mouse_y_on_exit_btn: bool = (pygame.mouse.get_pos() [1] in
                                  range(exit_start_button_text["pos"][1],
                                        exit_start_button_text["pos"][1] + exit_start_button_text[
                                            "render"].get_height()))
@@ -241,6 +239,8 @@ def game_loop() -> None:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 main_loop = 0
+            if event.key == pygame.K_f:
+                player.make_sound()
 
     SCREEN.fill("#121212")
 
@@ -344,12 +344,16 @@ def load_level(level: int) -> None:
     match level:
         case 1:
             for wall in curr_walls:
+                if isinstance(wall, Wall):
+                    wall.image.fill("#121212")
                 wall.delete()
             from levels.walls import walls as curr_walls
             for wall in curr_walls:
                 wall.update_group()
         case 2:
             for wall in curr_walls:
+                if isinstance(wall, Wall):
+                    wall.image.fill("#121212")
                 wall.delete()
             from levels.walls2 import walls as curr_walls
             for wall in curr_walls:
@@ -410,4 +414,4 @@ def terminate() -> None:
     :returns: None
     """
     pygame.quit()
-    quit()
+    exit()

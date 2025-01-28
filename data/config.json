@@ -2,11 +2,13 @@
   "player": {
     "size": 20,
     "speed": 1,
-    "pos": [20, 20]
+    "pos": [20, 20],
+    "sound_speed": 1
   },
   "game": {
-    "size": [1366, 768],
+    "size": [1920, 1080],
     "fps": 60,
-    "main_loop": 0
+    "main_loop": 0,
+    "full_screen_enabled": true
   }
 }

@@ -14,12 +14,14 @@ LEVEL_CHANGER_SPRITES = pygame.sprite.Group()
 
 class Character(pygame.sprite.Sprite):
     """Character controlled by player"""
-    def __init__(self, x: int, y: int, color: tuple[int, int, int] | str, size: int, v: int):
+    def __init__(self, x: int, y: int, color: tuple[int, int, int] | str, size: int, v: int, sound_speed: int = 1):
         super().__init__(CHARACTER_SPRITES)
         self.color = color
         self.v = v
         self.vx1, self.vx2, self.vy1, self.vy2 = v, -v, v, -v
         self.size = size
+        self.direction = 0
+        self.ss = sound_speed
 
         self.image = pygame.Surface((2 * self.size, 2 * self.size), pygame.SRCALPHA, 32)
         self.image.fill(color)
@@ -51,12 +53,35 @@ class Character(pygame.sprite.Sprite):
             self.vy1, self.vy2 = self.v, -self.v
         if keys[pygame.K_w]:
             self.rect = self.rect.move(0, self.vy2)
+            self.direction = 2
         if keys[pygame.K_s]:
             self.rect = self.rect.move(0, self.vy1)
+            self.direction = 0
         if keys[pygame.K_a]:
             self.rect = self.rect.move(self.vx2, 0)
+            self.direction = 1
         if keys[pygame.K_d]:
             self.rect = self.rect.move(self.vx1, 0)
+            self.direction = 3
+
+    def make_sound(self):
+        match self.direction:
+            case 0:
+                Sound(0, self.ss, self.rect.center)
+                Sound(-self.ss, self.ss, self.rect.center)
+                Sound(self.ss, self.ss, self.rect.center)
+            case 1:
+                Sound(-self.ss, 0, self.rect.center)
+                Sound(-self.ss, self.ss, self.rect.center)
+                Sound(-self.ss, -self.ss, self.rect.center)
+            case 2:
+                Sound(0, -self.ss, self.rect.center)
+                Sound(self.ss, -self.ss, self.rect.center)
+                Sound(-self.ss, -self.ss, self.rect.center)
+            case 3:
+                Sound(self.ss, 0, self.rect.center)
+                Sound(self.ss, self.ss, self.rect.center)
+                Sound(self.ss, -self.ss, self.rect.center)
 
 
 class Wall(pygame.sprite.Sprite):
@@ -70,12 +95,12 @@ class Wall(pygame.sprite.Sprite):
         if x1 == x2:
             self.add(VERTICAL_WALL_SPRITES)
             self.image = pygame.Surface([1, y2 - y1])
-            self.image.fill(pygame.Color("#CCCCCC"))
+            self.image.fill(pygame.Color("#121212"))
             self.rect = pygame.Rect(x1, y1, 1, y2 - y1)
         else:
             self.add(HORIZONTAL_WALL_SPRITES)
             self.image = pygame.Surface([x2 - x1, 1])
-            self.image.fill(pygame.Color("#CCCCCC"))
+            self.image.fill(pygame.Color("#121212"))
             self.rect = pygame.Rect(x1, y1, x2 - x1, 1)
 
     def delete(self):
@@ -115,7 +140,7 @@ class LevelChanger(pygame.sprite.Sprite):
     def __init__(self, x1: int, y1: int, x2: int, y2: int):
         super().__init__(LEVEL_CHANGER_SPRITES)
         self.image = pygame.Surface([x2 - x1 - 3, y2 - y1 - 1])
-        self.image.fill(pygame.Color("#904040"))
+        self.image.fill(pygame.Color("#201212"))
         self.rect = pygame.Rect(x1 + 1, y1 + 1, x2 - x1 - 3, y2 - y1 - 1)
 
     def delete(self):
@@ -135,14 +160,18 @@ class LevelChanger(pygame.sprite.Sprite):
         """
         self.add(LEVEL_CHANGER_SPRITES)
 
-class Sound:
+class Sound(pygame.sprite.Sprite):
     """Object made for revealing walls"""
     def __init__(self, vx: int, vy: int, center: Tuple[int, int]):
+        super().__init__(SOUND_SPRITES)
+        self.center = center
         radius: int = 10
+        self.radius = radius
         self.vx, self.vy = vx, vy
         self.image = pygame.Surface((radius * 2, radius * 2))
+        self.image.fill("#181818")
         self.rect = pygame.Rect(center[0] - radius, center[1] - radius, radius * 2, radius * 2)
-        pygame.draw.circle(self.image, pygame.Color("#606060"), center, radius)
+
 
     def update(self):
         """
@@ -150,10 +179,11 @@ class Sound:
 
         :return: None
         """
-        self.rect.move(self.vx, self.vy)
+        self.rect = self.rect.move(self.vx, self.vy)
         collided_wall = pygame.sprite.spritecollideany(self, WALL_SPRITES)
         if collided_wall:
-            collided_wall.image.fill("#FF0000")
+            collided_wall.image.fill("#404040")
+            SOUND_SPRITES.remove(self)
             del self
 
 class RecordsTable(QMainWindow, Ui_MainWindow):
@@ -173,7 +203,6 @@ class RecordsTable(QMainWindow, Ui_MainWindow):
                                            level_id
                                       FROM Records;
                                     """)
-        self.tableWidget.setEnabled(False)
         self.tableWidget.setColumnCount(2)
         for i, row in enumerate(data):
             self.tableWidget.setRowCount(self.tableWidget.rowCount() + 1)

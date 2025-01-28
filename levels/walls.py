@@ -1,11 +1,10 @@
 from data.classes import Wall, LevelChanger
 
-w = 160  # distance between walls
+w = 240  # distance between walls
 
 walls = (
     Wall(w * 1, 0, w * 1, w * 1),
     Wall(w * 1, w * 1, 2 * w, w * 1),
-    Wall(w * 1, w * 2, 2 * w, 2 * w),
     Wall(w * 1, 2 * w, 2 * w, 2 * w),
     Wall(w * 1, 2 * w, w * 1, 3 * w),
     Wall(0, 4 * w, w * 1, 4 * w),
