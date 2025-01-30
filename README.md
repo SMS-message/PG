@@ -33,4 +33,4 @@
    >- Пример лабиринта
       ![](materials/maze.png)
 6. Скринкаст работы
-   > [Скринкаст](https://youtube.com).
+   > [Скринкаст](https://drive.google.com/file/d/1kdr__Xp4sXzE4OT8t59zh_5Novl96_Mt/view?usp=sharing).
