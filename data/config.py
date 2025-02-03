@@ -11,11 +11,11 @@ with open("data/config.json", encoding="utf-8") as json_file:
     SIZE = WIDTH, HEIGHT = data["game"]["size"]
     clock = pygame.time.Clock()
 
-    MAIN_MENU = pygame.display.set_mode(SIZE, pygame.FULLSCREEN if data["game"]["full_screen_enabled"] else None)
-    LEVEL_TRANSITION = pygame.display.set_mode(SIZE, pygame.FULLSCREEN if data["game"]["full_screen_enabled"] else None)
-    END_MENU = pygame.display.set_mode(SIZE, pygame.FULLSCREEN if data["game"]["full_screen_enabled"] else None)
+    MAIN_MENU = pygame.display.set_mode(SIZE, pygame.FULLSCREEN if data["game"]["full_screen_enabled"] else 0)
+    LEVEL_TRANSITION = pygame.display.set_mode(SIZE, pygame.FULLSCREEN if data["game"]["full_screen_enabled"] else 0)
+    END_MENU = pygame.display.set_mode(SIZE, pygame.FULLSCREEN if data["game"]["full_screen_enabled"] else 0)
 
-    SCREEN = pygame.display.set_mode(SIZE, pygame.FULLSCREEN if data["game"]["full_screen_enabled"] else None)
+    SCREEN = pygame.display.set_mode(SIZE, pygame.FULLSCREEN if data["game"]["full_screen_enabled"] else 0)
 
     FPS = data["game"]["fps"]
     clock.tick(FPS)
